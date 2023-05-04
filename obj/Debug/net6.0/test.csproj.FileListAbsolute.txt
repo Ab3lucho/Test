@@ -1,0 +1,15 @@
+E:\Mi primer proyecto\test\obj\Debug\net6.0\test.csproj.AssemblyReference.cache
+E:\Mi primer proyecto\test\obj\Debug\net6.0\test.GeneratedMSBuildEditorConfig.editorconfig
+E:\Mi primer proyecto\test\obj\Debug\net6.0\test.AssemblyInfoInputs.cache
+E:\Mi primer proyecto\test\obj\Debug\net6.0\test.AssemblyInfo.cs
+E:\Mi primer proyecto\test\obj\Debug\net6.0\test.csproj.CoreCompileInputs.cache
+E:\Mi primer proyecto\Test\bin\Debug\net6.0\test.exe
+E:\Mi primer proyecto\Test\bin\Debug\net6.0\test.deps.json
+E:\Mi primer proyecto\Test\bin\Debug\net6.0\test.runtimeconfig.json
+E:\Mi primer proyecto\Test\bin\Debug\net6.0\test.dll
+E:\Mi primer proyecto\Test\bin\Debug\net6.0\test.pdb
+E:\Mi primer proyecto\Test\obj\Debug\net6.0\test.dll
+E:\Mi primer proyecto\Test\obj\Debug\net6.0\refint\test.dll
+E:\Mi primer proyecto\Test\obj\Debug\net6.0\test.pdb
+E:\Mi primer proyecto\Test\obj\Debug\net6.0\test.genruntimeconfig.cache
+E:\Mi primer proyecto\Test\obj\Debug\net6.0\ref\test.dll
