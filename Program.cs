@@ -108,14 +108,17 @@ public class ManejoArchivos
     }
     public void Tf_Idf()
     {
-        foreach (var item in this.Textos_Palabras_TF)
+        foreach (var item in this.PalabrasUnicas)
         {
             Dictionary<string, double> DiccionarioTF_IDF = new Dictionary<string, double>();
             foreach (var item2 in item.Value)
             {
-                DiccionarioTF_IDF.Add(item2.Key, item2.Value * this.Textos_Palabras_IDF[item.Key][item2.Key]);
+                DiccionarioTF_IDF.Add(item2, this.Textos_Palabras_TF[item.Key][item2] * this.Textos_Palabras_IDF[item.Key][item2]);
             }
             this.DiccionarioTF_IDF.Add(item.Key, DiccionarioTF_IDF);
+        }
+        {
+           
         }
     }
    
