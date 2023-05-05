@@ -117,9 +117,7 @@ public class ManejoArchivos
             }
             this.DiccionarioTF_IDF.Add(item.Key, DiccionarioTF_IDF);
         }
-        {
-           
-        }
+        
     }
    
      
@@ -136,13 +134,98 @@ public class ManejoArchivos
 
     }
     
-   static void Main()
+ 
+
+
+}
+
+/////////////////////////query//////////////////////////////
+class Query
+{
+             ///constructor //////
+    public Query(string QueryInput )
+    {
+       queryinput = QueryInput;
+       queryPalabrasUnicas = new string[0];
+       queryToken = new string[0];
+    }
+    
+    public string queryinput{get;set;}
+    public string[] queryPalabrasUnicas{get;set;}
+    public string[] queryToken{get;set;}
+    public Dictionary<string, double> Query_TF = new Dictionary<string, double>();
+    public Dictionary<string, double> Query_IDF = new Dictionary<string, double>();
+    public Dictionary<string, double> Query_TF_IDF = new Dictionary<string, double>();
+   
+    public string[] QueryToken()
+    {
+        char[] delimitadores = { ' ', ',', '.', ':', '¿', '?','!','*','/','"','#',')','(', };
+       string[] queryToken = this.queryinput.Split(delimitadores);
+        
+        return queryToken;
+    }
+    public void QueryPalabrasMinusculas()
+    {
+        for (int i = 0; i < this.queryToken.Length; i++)
+        {
+            if (queryToken != null)
+            {
+             this.queryToken[i] = this.queryToken[i].ToLower();
+             this.queryPalabrasUnicas = this.queryToken.Distinct().ToArray();
+            }
+        }
+    }
+   //// QueryTF
+   public void Query_TF_()
+   {
+       foreach (var item in this.queryPalabrasUnicas)
+       {
+           double contador = 0;
+           foreach (var item2 in this.queryToken)
+           {
+               if (item == item2)
+               {
+                   contador++;
+               }
+           }
+           this.Query_TF.Add(item, contador / this.queryToken.Length);
+       }
+   }
+   ////QueryIDF
+    public void Query_IDF_()
+    {
+         foreach (var item in this.queryPalabrasUnicas)
+         {
+              double contador = 0;
+              foreach (var item2 in this.queryPalabrasUnicas)
+              {
+                if (item == item2)
+                {
+                     contador++;
+                     break;
+                }
+              }
+              this.Query_IDF.Add(item, Math.Log10(this.queryPalabrasUnicas.Length / contador));
+         }
+    }
+
+
+}
+
+     
+      
+
+class Program
+{
+    static void Main()
 {
     ManejoArchivos Objeto1 = new ManejoArchivos("E:/Mi primer proyecto/Database");
     Objeto1.Motor();
     // System.Console.WriteLine(String.Join(", ", Objeto1.));
     // Console.ReadLine(); // Agrega esta línea.
+} 
 }
 
 
-}
+
+ 
