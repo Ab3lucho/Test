@@ -61,12 +61,12 @@ public class ManejoArchivos
 
     }
 
-    public double DondeEstaLaPalabra(string Palabra, Dictionary<string, string[]> Dic, string[] Texto)
+    public double DondeEstaLaPalabra(string Palabra, Dictionary<string, string[]> NombresvsPalabras, string[] ArchivosTxt)
     {
         double DocumentosDondeExiste = 0;
-        for (int i = 0; i < Texto.Length; i++)
+        for (int i = 0; i < this.ArchivosTxt.Length; i++)
         {
-            string[] Documento = Dic[Texto[i]];
+            string[] Documento = this.NombresvsPalabras[this.ArchivosTxt[i]];
 
             for (int o = 0; o < Documento.Length; o++)
             {
@@ -81,6 +81,25 @@ public class ManejoArchivos
 
         }
         return DocumentosDondeExiste;
+    
+        // double DocumentosDondeExiste = 0;
+        // for (int i = 0; i < Texto.Length; i++)
+        // {
+        //     string[] Documento = Dic[Texto[i]];
+
+        //     for (int o = 0; o < Documento.Length; o++)
+        //     {
+
+        //         if (Documento[o] == Palabra)
+        //         {
+        //             DocumentosDondeExiste++;
+        //             break;
+        //         }
+
+        //     }
+
+        // }
+        // return DocumentosDondeExiste;
 
 
     }
@@ -188,7 +207,7 @@ class Query
     public void QueryToken()
     {
         char[] delimitadores = { ' ', ',', '.', ':', '¿', '?', '!', '*', '/', '"', '#', ')', '(', };
-        string[] queryToken = this.queryinput.Split(delimitadores);
+        this.queryToken = this.queryinput.Split(delimitadores);
 
         
     }
