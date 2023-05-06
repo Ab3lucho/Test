@@ -227,12 +227,16 @@ class Query
     {
         ManejoArchivos Objeto1 = new ManejoArchivos("E:/Mi primer proyecto/Database");
         double TotalDeDocumentos = Objeto1.ArchivosTxt.Length;
-        for (int i = 0; i < this.queryToken.Length; i++)
+        foreach (var item in this.queryToken)
         {
-
-            this.Query_IDF.Add(this.queryToken[i], Math.Log10(TotalDeDocumentos + 1 / Objeto1.DondeEstaLaPalabra(this.queryToken[i], Objeto1.NombresvsPalabras, Objeto1.ArchivosTxt) + 1));
-
+            this.Query_IDF.Add(item, Math.Log10(TotalDeDocumentos + 1 / Objeto1.DondeEstaLaPalabra(item, Objeto1.NombresvsPalabras, Objeto1.ArchivosTxt) + 1));
         }
+        // for (int i = 0; i < this.queryToken.Length; i++)
+        // {
+
+        //     this.Query_IDF.Add(this.queryToken[i], Math.Log10(TotalDeDocumentos + 1 / Objeto1.DondeEstaLaPalabra(this.queryToken[i], Objeto1.NombresvsPalabras, Objeto1.ArchivosTxt) + 1));
+
+        // }
 
     }
 
