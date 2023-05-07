@@ -61,48 +61,10 @@ public class ManejoArchivos
 
     }
 
-    public double DondeEstaLaPalabra(string Palabra, Dictionary<string, string[]> NombresvsPalabras, string[] ArchivosTxt)
-    {
-        double DocumentosDondeExiste = 0;
-        for (int i = 0; i < this.ArchivosTxt.Length; i++)
-        {
-            string[] Documento = this.NombresvsPalabras[this.ArchivosTxt[i]];
-
-            for (int o = 0; o < Documento.Length; o++)
-            {
-
-                if (Documento[o] == Palabra)
-                {
-                    DocumentosDondeExiste++;
-                    break;
-                }
-
-            }
-
-        }
-        return DocumentosDondeExiste;
-    
-        // double DocumentosDondeExiste = 0;
-        // for (int i = 0; i < Texto.Length; i++)
-        // {
-        //     string[] Documento = Dic[Texto[i]];
-
-        //     for (int o = 0; o < Documento.Length; o++)
-        //     {
-
-        //         if (Documento[o] == Palabra)
-        //         {
-        //             DocumentosDondeExiste++;
-        //             break;
-        //         }
-
-        //     }
-
-        // }
-        // return DocumentosDondeExiste;
 
 
-    }
+
+
 
 
     ///  tf-idf
@@ -170,6 +132,7 @@ public class ManejoArchivos
     public string[] Motor()
     {
         ObtenerTextos();
+
         ObtenerPalabras();
         Tf();
         Idf();
@@ -202,6 +165,7 @@ class Query
     public Dictionary<string, double> Query_TF = new Dictionary<string, double>();
     public Dictionary<string, double> Query_IDF = new Dictionary<string, double>();
     public Dictionary<string, double> Query_TF_IDF = new Dictionary<string, double>();
+     ManejoArchivos Objeto1 = new ManejoArchivos("E:/Mi primer proyecto/Database");
 
 
     public void QueryToken()
@@ -209,7 +173,7 @@ class Query
         char[] delimitadores = { ' ', ',', '.', ':', '¿', '?', '!', '*', '/', '"', '#', ')', '(', };
         this.queryToken = this.queryinput.Split(delimitadores);
 
-        
+
     }
     public void QueryPalabrasMinusculas(string[] queryToken)
     {
@@ -241,23 +205,33 @@ class Query
         }
     }
     ////QueryIDF
-
     public void Query_IDF_()
     {
-        ManejoArchivos Objeto1 = new ManejoArchivos("E:/Mi primer proyecto/Database");
+       
         double TotalDeDocumentos = Objeto1.ArchivosTxt.Length;
-        foreach (var item in this.queryToken)
+
+        Dictionary<string, double> documentsWithTerms = new Dictionary<string, double>();
+        foreach (string item in queryPalabrasUnicas)
         {
-            this.Query_IDF.Add(item, Math.Log10(TotalDeDocumentos + 1 / Objeto1.DondeEstaLaPalabra(item, Objeto1.NombresvsPalabras, Objeto1.ArchivosTxt) + 1));
+            double contador = 0;
+            foreach (string item2 in Objeto1.ArchivosTxt)
+            {
+                if (Objeto1.PalabrasUnicas[item2].Contains(item))
+                {
+                    contador++;
+                }
+            }
+            documentsWithTerms.Add(item, contador);
         }
-        // for (int i = 0; i < this.queryToken.Length; i++)
-        // {
-
-        //     this.Query_IDF.Add(this.queryToken[i], Math.Log10(TotalDeDocumentos + 1 / Objeto1.DondeEstaLaPalabra(this.queryToken[i], Objeto1.NombresvsPalabras, Objeto1.ArchivosTxt) + 1));
-
-        // }
-
+        foreach (string item in queryPalabrasUnicas)
+        {
+            double idf = Math.Log10(((double)TotalDeDocumentos + 1) / ((double)documentsWithTerms[item] + 1));
+            this.Query_IDF.Add(item, idf);
+        }
+    
     }
+
+
 
     ////QueryTF-IDF
     public void Query_TF_IDF_()
@@ -267,6 +241,31 @@ class Query
             this.Query_TF_IDF.Add(item, this.Query_TF[item] * this.Query_IDF[item]);
         }
     }
+  
+  /// SIMILITUD COSENO 
+
+  public double SimilitudCoseno(Dictionary<string, double> Query_TF_IDF, Dictionary<string, double> DiccionarioTF_IDF)
+    {
+        double numerador = 0;
+        double denominador1 = 0;
+        double denominador2 = 0;
+        foreach (var item in Query_TF_IDF)
+        {
+            foreach (var item2 in DiccionarioTF_IDF)
+            {
+                if (item.Key == item2.Key)
+                {
+                    numerador += item.Value * item2.Value;
+                    denominador1 += Math.Pow(item.Value, 2);
+                    denominador2 += Math.Pow(item2.Value, 2);
+                }
+            }
+        }
+        double denominador = Math.Sqrt(denominador1) * Math.Sqrt(denominador2);
+        double similitud = numerador / denominador;
+        return similitud;
+    }
+
 
     public void Motor2()
     {
@@ -274,8 +273,12 @@ class Query
         QueryPalabrasMinusculas(queryToken);
         Query_TF_();
         Query_IDF_();
+        Query_TF_IDF_();
+        ManejoArchivos Objeto1 = new ManejoArchivos("E:/Mi primer proyecto/Database");
+        // SimilitudCoseno(Query_TF_IDF, Objeto1.DiccionarioTF_IDF["E:/Mi primer proyecto/Database\\1.txt"]);
         System.Console.WriteLine("Datos cargados");
-    }	
+    }
+
 
 }
 
@@ -288,7 +291,7 @@ class Program
     {
         ManejoArchivos Objeto1 = new ManejoArchivos("E:/Mi primer proyecto/Database");
         Objeto1.Motor();
-        Query Objeto2 = new Query("The Project Gutenberg");
+        Query Objeto2 = new Query("The Project CASA");
         Objeto2.Motor2();
         // System.Console.WriteLine(String.Join(", ", Objeto1.));
         // Console.ReadLine(); // Agrega esta línea.
